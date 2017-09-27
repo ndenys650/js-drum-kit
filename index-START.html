@@ -59,6 +59,46 @@
 
 <script>
 
+// Listen for key event and do something
+
+// listening for a pressed key event
+// the 'e' after function is the event that will be returned 
+// aka object full of data describing what happened
+  function playSound(e) {
+    // retrieve specific audio event that is attached to the key being pressed
+    const audio = document.querySelector(`audio[data-key="${e.keyCode}"]`);
+    // select specific key element on webpage being pressed 
+    const key = document.querySelector(`.key[data-key="${e.keyCode}"]`);
+    // if no audio element stop the function from completing
+    if (!audio) return;
+    // rewind start of element right after button is presses
+    audio.currentTime = 0;
+    // else play the sound corresponding to the key
+    audio.play();
+    // add the class outlining which key has been pressed
+    key.classList.add('playing');
+    // show the developer what audio/key was pressed
+    console.log(audio);
+  });
+
+// Add/Remove Class function
+
+  //  create function to remove class after key is pressed
+  function removeTransition(e) {
+    // if not a transform skip the key press
+    if(e.propertyName !== 'transform') return;
+    // else return class change
+    this.classList.remove('playing');
+  }
+
+  // 'keys' = when any of the specified keys are entered
+  const keys = document.querySelectorAll(".key");
+  
+  // for each key presses add the 'remove transition' event function
+  keys.forEach(key => key.addEventListener('transitionend', removeTransition));
+
+  // when a specified key is pressed, apply function that plays sound
+  window.addEventListener('keydown', playSound);
 
 </script>
 
